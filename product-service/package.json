@@ -1,0 +1,22 @@
+{
+  "name": "product-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier:fix": "npx prettier --write .",
+    "cdk:bootstrap": "cdk bootstrap",
+    "cdk:deploy": "cdk deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.82.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.82.0-alpha.0",
+    "@types/node": "^20.2.5",
+    "aws-cdk-lib": "^2.82.0",
+    "esbuild": "^0.17.19",
+    "prettier": "2.8.8"
+  }
+}
