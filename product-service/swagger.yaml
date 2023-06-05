@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: nodejs-aws-shop-back-end product service
+  description: Product service API
+  version: 1.0.0
+servers:
+  - url: https://0teqah93ch.execute-api.eu-west-1.amazonaws.com/
+tags:
+  - name: products
+    description: Products info
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      summary: Get all products
+      responses:
+        '200':
+          description: Products list array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/{productId}:
+    get:
+      tags:
+        - products
+      summary: Finds product by id
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findPetsByTags
+      parameters:
+        - name: productId
+          in: path
+          description: Uniq id of product
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product with provided productId not found
+          content:
+            application/json:
+              schema: 
+                type: string
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: uniqe product id
+          example: "1"
+        title:
+          type: string
+          description: product title
+          example: "The Legend of Zelda™: Tears of the Kingdom"
+        description:
+          type: string
+          description: product description
+          example: "Action-adventure game developed and published by Nintendo for the Nintendo Switch"
+        price:
+          type: number
+          description: product price
+          format: double
+          example: 69.99
