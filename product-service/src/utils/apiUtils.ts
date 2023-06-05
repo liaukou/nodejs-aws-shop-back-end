@@ -4,7 +4,20 @@ export const CORS_HEADER = {
   'Access-Control-Allow-Methods': 'OPTIONS,GET',
 }
 
-export const createResponse = (statusCode, body, headers = CORS_HEADER) => ({
+type Headers = Record<string, string>
+
+type JSONValue =
+  | string
+  | number
+  | boolean
+  | { [x: string]: JSONValue }
+  | Array<JSONValue>
+
+export const createResponse = (
+  statusCode: number,
+  body: JSONValue,
+  headers: Headers = CORS_HEADER
+) => ({
   statusCode,
   headers,
   body: JSON.stringify(body, null, 2),
