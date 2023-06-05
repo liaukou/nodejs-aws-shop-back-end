@@ -1,10 +1,14 @@
 [
   {
-    "id": 1,
-    "name": "product 1"
+    "id": "1",
+    "title": "product 1",
+    "description": "",
+    "price": 11
   },
   {
-    "id": 2,
-    "name": "product 2"
+    "id": "2",
+    "title": "product 2",
+    "description": "",
+    "price": 12
   }
 ]
