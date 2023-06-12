@@ -8,7 +8,9 @@ AWS.config.update({
 
 const dynamodb = new AWS.DynamoDB.DocumentClient()
 
-const getDynamodbItems = async (params: AWS.DynamoDB.DocumentClient.ScanInput) => {
+const getDynamodbItems = async (
+  params: AWS.DynamoDB.DocumentClient.ScanInput
+) => {
   let output: AWS.DynamoDB.DocumentClient.ScanOutput
   try {
     output = await dynamodb.scan(params).promise()
@@ -20,6 +22,8 @@ const getDynamodbItems = async (params: AWS.DynamoDB.DocumentClient.ScanInput) =
 }
 
 export const handler = async () => {
+  console.log('getProductsList called')
+
   try {
     const products = await getDynamodbItems({
       TableName: process.env.PRODUCTS_TABLE_NAME,

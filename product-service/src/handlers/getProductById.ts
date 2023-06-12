@@ -9,7 +9,9 @@ AWS.config.update({
 
 const dynamodb = new AWS.DynamoDB.DocumentClient()
 
-const getDynamodbItem = async (params: AWS.DynamoDB.DocumentClient.QueryInput) => {
+const getDynamodbItem = async (
+  params: AWS.DynamoDB.DocumentClient.QueryInput
+) => {
   let output: AWS.DynamoDB.DocumentClient.QueryOutput
   try {
     output = await dynamodb.query(params).promise()
@@ -22,6 +24,8 @@ const getDynamodbItem = async (params: AWS.DynamoDB.DocumentClient.QueryInput) =
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   const { productId } = event.pathParameters || {}
+
+  console.log('getProductById called with id ', productId)
 
   try {
     const products = await getDynamodbItem({
