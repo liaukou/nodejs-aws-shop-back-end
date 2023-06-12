@@ -1,5 +1,8 @@
 import prducts from './products.json'
 
+export const productsTableName = 'rs-aws-products'
+export const stocksTableName = 'rs-aws-stocks'
+
 export type Product = {
   id: string
   title: string

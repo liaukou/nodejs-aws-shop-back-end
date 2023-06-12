@@ -6,6 +6,7 @@ import {
   NodejsFunction,
   NodejsFunctionProps,
 } from 'aws-cdk-lib/aws-lambda-nodejs'
+import { productsTableName, stocksTableName } from './src/db'
 
 const app = new cdk.App()
 
@@ -22,6 +23,8 @@ const sharedLambdaProps: Partial<NodejsFunctionProps> = {
   runtime: Runtime.NODEJS_18_X,
   environment: {
     PRODUCT_AWS_REGION: process.env.PRODUCT_AWS_REGION,
+    PRODUCTS_TABLE_NAME: productsTableName,
+    STOCKS_TABLE_NAME: stocksTableName,
   },
 }
 

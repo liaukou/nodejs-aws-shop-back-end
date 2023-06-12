@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { Product, Stock } from '../src/db'
+import { Product, Stock, productsTableName, stocksTableName } from '../src/db'
 import products from '../src/db/products.json'
 import stocks from '../src/db/stocks.json'
 
@@ -8,9 +8,6 @@ AWS.config.update({
 })
 
 const dynamodb = new AWS.DynamoDB()
-
-const productsTableName = 'rs-aws-products'
-const stocksTableName = 'rs-aws-stocks'
 
 async function addProduct(product: Product) {
   const params: AWS.DynamoDB.PutItemInput = {
