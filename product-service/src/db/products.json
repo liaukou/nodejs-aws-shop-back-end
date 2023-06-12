@@ -1,14 +1,62 @@
 [
   {
-    "id": "1",
-    "title": "product 1",
-    "description": "",
-    "price": 11
+    "id": "a4827920-d3cc-4e4e-a3c1-8ad3fe30a557",
+    "title": "The Legend of Zelda: Breath of the Wild",
+    "description": "Embark on an epic adventure in the kingdom of Hyrule.",
+    "price": 59.99
   },
   {
-    "id": "2",
-    "title": "product 2",
-    "description": "",
-    "price": 12
+    "id": "d1e19b33-1dc5-4f70-a3ef-bfaae86b35bc",
+    "title": "Animal Crossing: New Horizons",
+    "description": "Create your own virtual paradise on a deserted island.",
+    "price": 49.99
+  },
+  {
+    "id": "f79e2a3e-81f9-4a0e-88d3-82eb10e5e388",
+    "title": "Super Mario Odyssey",
+    "description": "Join Mario on a globe-trotting journey to rescue Princess Peach.",
+    "price": 59.99
+  },
+  {
+    "id": "925a89ed-097d-4b47-8d94-c98f39406aaf",
+    "title": "Pokémon Sword",
+    "description": "Embark on a new Pokémon adventure in the Galar region.",
+    "price": 59.99
+  },
+  {
+    "id": "4f62a5ff-1df8-4e9d-aa14-4ef74edf6893",
+    "title": "Splatoon 2",
+    "description": "Engage in ink-splatting battles in this colorful team-based shooter.",
+    "price": 49.99
+  },
+  {
+    "id": "54d2a24a-77a4-4af5-b345-4a23f53f4f2a",
+    "title": "Mario Kart 8 Deluxe",
+    "description": "Race against your friends in the ultimate kart racing game.",
+    "price": 59.99
+  },
+  {
+    "id": "b66e3a4c-b041-494e-a9e1-6e77f2c6d70f",
+    "title": "Fire Emblem: Three Houses",
+    "description": "Experience a tactical role-playing game set in a fantasy world.",
+    "price": 59.99
+  },
+  {
+    "id": "7587db45-46c1-4563-b3f4-1b4c11d2082a",
+    "title": "Super Smash Bros. Ultimate",
+    "description": "Fight with an all-star cast of Nintendo characters in intense battles.",
+    "price": 59.99
+  },
+  {
+    "id": "67fd8b09-d0a3-478c-b2be-7c7a35e10243",
+    "title": "Luigi's Mansion 3",
+    "description": "Join Luigi in a haunted hotel adventure to rescue his friends.",
+    "price": 59.99
+  },
+  {
+    "id": "8f974335-8248-450a-a0cc-561a080aaad3",
+    "title": "Hyrule Warriors: Age of Calamity",
+    "description": "Experience the events leading up to the Great Calamity in Hyrule.",
+    "price": 59.99
   }
 ]
