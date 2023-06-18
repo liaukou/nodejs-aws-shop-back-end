@@ -6,16 +6,9 @@ export const CORS_HEADER = {
 
 type Headers = Record<string, string>
 
-type JSONValue =
-  | string
-  | number
-  | boolean
-  | { [x: string]: JSONValue }
-  | Array<JSONValue>
-
 export const createResponse = (
   statusCode: number,
-  body: JSONValue,
+  body: any,
   headers: Headers = CORS_HEADER
 ) => ({
   statusCode,

@@ -28,8 +28,6 @@ paths:
       tags:
         - products
       summary: Finds product by id
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-      operationId: findPetsByTags
       parameters:
         - name: productId
           in: path
@@ -48,7 +46,7 @@ paths:
           description: Product with provided productId not found
           content:
             application/json:
-              schema: 
+              schema:
                 type: string
 components:
   schemas:
@@ -58,15 +56,15 @@ components:
         id:
           type: string
           description: uniqe product id
-          example: "1"
+          example: '1'
         title:
           type: string
           description: product title
-          example: "The Legend of Zelda™: Tears of the Kingdom"
+          example: 'The Legend of Zelda™: Tears of the Kingdom'
         description:
           type: string
           description: product description
-          example: "Action-adventure game developed and published by Nintendo for the Nintendo Switch"
+          example: 'Action-adventure game developed and published by Nintendo for the Nintendo Switch'
         price:
           type: number
           description: product price

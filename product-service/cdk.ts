@@ -6,6 +6,7 @@ import {
   NodejsFunction,
   NodejsFunctionProps,
 } from 'aws-cdk-lib/aws-lambda-nodejs'
+import { productsTableName, stocksTableName } from './src/db'
 
 const app = new cdk.App()
 
@@ -22,6 +23,8 @@ const sharedLambdaProps: Partial<NodejsFunctionProps> = {
   runtime: Runtime.NODEJS_18_X,
   environment: {
     PRODUCT_AWS_REGION: process.env.PRODUCT_AWS_REGION,
+    PRODUCTS_TABLE_NAME: productsTableName,
+    STOCKS_TABLE_NAME: stocksTableName,
   },
 }
 
@@ -42,6 +45,16 @@ const getProductById = new NodejsFunction(
     ...sharedLambdaProps,
     functionName: 'getProductById',
     entry: 'src/handlers/getProductById.ts',
+  }
+)
+
+const createProduct = new NodejsFunction(
+  stack,
+  `${prefix}-createProduct-lambda`,
+  {
+    ...sharedLambdaProps,
+    functionName: 'createProduct',
+    entry: 'src/handlers/createProduct.ts',
   }
 )
 
@@ -69,4 +82,13 @@ api.addRoutes({
   ),
   path: '/products/{productId}',
   methods: [apigatewayv2.HttpMethod.GET],
+})
+
+api.addRoutes({
+  integration: new HttpLambdaIntegration(
+    `${prefix}-createProduct-lambda-integration`,
+    createProduct
+  ),
+  path: '/products',
+  methods: [apigatewayv2.HttpMethod.POST],
 })
