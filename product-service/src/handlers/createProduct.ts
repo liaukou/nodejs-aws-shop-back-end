@@ -55,9 +55,11 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       },
     ]
 
-    await dynamodb.transactWrite({
-      TransactItems: transactItems,
-    }).promise()
+    await dynamodb
+      .transactWrite({
+        TransactItems: transactItems,
+      })
+      .promise()
 
     return createResponse(httpConstants.HTTP_STATUS_OK, items)
   } catch (error) {
