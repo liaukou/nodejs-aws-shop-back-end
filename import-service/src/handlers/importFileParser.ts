@@ -34,17 +34,32 @@ export const handler = async (event: S3Event) => {
 
   const s3MetaData = event.Records[0].s3
   const bucketName = s3MetaData.bucket.name
-  const fileName = s3MetaData.object.key
-
-  console.log('bucketName:', bucketName)
-  console.log('fileName:', fileName)
+  const objectKey = s3MetaData.object.key
+  const destinationKey = objectKey.replace('uploaded/', 'parsed/')
 
   try {
     const readableStream = s3
-      .getObject({ Bucket: bucketName, Key: fileName })
+      .getObject({ Bucket: bucketName, Key: objectKey })
       .createReadStream()
 
     await parseStream(readableStream)
+
+    await s3
+      .copyObject({
+        Bucket: bucketName,
+        CopySource: `${bucketName}/${objectKey}`,
+        Key: destinationKey,
+      })
+      .promise()
+
+    await s3
+      .deleteObject({
+        Bucket: bucketName,
+        Key: objectKey,
+      })
+      .promise()
+
+    console.log('File moved successfully.')
   } catch (error) {
     console.log('Error: ', error)
   }
