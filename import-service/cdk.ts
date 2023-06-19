@@ -7,6 +7,7 @@ import {
   NodejsFunctionProps,
 } from 'aws-cdk-lib/aws-lambda-nodejs'
 import * as s3 from 'aws-cdk-lib/aws-s3'
+import * as s3notifications from 'aws-cdk-lib/aws-s3-notifications'
 
 const app = new cdk.App()
 
@@ -41,22 +42,24 @@ const importProductsFile = new NodejsFunction(
   }
 )
 
-// const importFileParser = new NodejsFunction(
-//   stack,
-//   `${prefix}-importFileParser-lambda`,
-//   {
-//     ...sharedLambdaProps,
-//     functionName: 'importFileParser',
-//     entry: 'src/handlers/importFileParser.ts',
-//   }
-// )
+const importFileParser = new NodejsFunction(
+  stack,
+  `${prefix}-importFileParser-lambda`,
+  {
+    ...sharedLambdaProps,
+    functionName: 'importFileParser',
+    entry: 'src/handlers/importFileParser.ts',
+  }
+)
 
 bucket.grantReadWrite(importProductsFile)
+bucket.grantReadWrite(importFileParser)
 
-// bucket.addEventNotification(
-//   s3.EventType.OBJECT_CREATED,
-//   new s3notifications.LambdaDestination(importFileParser)
-// )
+bucket.addEventNotification(
+  s3.EventType.OBJECT_CREATED,
+  new s3notifications.LambdaDestination(importFileParser),
+  { prefix: 'uploaded/' }
+)
 
 const api = new apigatewayv2.HttpApi(stack, `${prefix}-api`, {
   corsPreflight: {

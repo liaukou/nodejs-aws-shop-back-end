@@ -10,8 +10,11 @@ AWS.config.update({
 
 const s3 = new AWS.S3()
 
+const tempData = `The Legend of Zelda: Breath of the Wild,Embark on an epic adventure in the kingdom of Hyrule.,59.99
+Animal Crossing: New Horizons,Create your own virtual paradise on a deserted island.,49.99`
+
 export const handler = async (event: APIGatewayProxyEvent) => {
-  const fileName = event.queryStringParameters?.name || 'products'
+  const fileName = event.queryStringParameters?.name || 'products.csv'
   const bucketName = process.env.bucketName
   const objectKey = `uploaded/${fileName}`
 
@@ -19,7 +22,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     const putParams: PutObjectRequest = {
       Bucket: bucketName,
       Key: objectKey,
-      Body: 'Temp content',
+      Body: tempData,
     }
 
     const params = {
