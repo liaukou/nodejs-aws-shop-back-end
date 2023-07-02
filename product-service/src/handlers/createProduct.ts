@@ -1,7 +1,10 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import AWS from 'aws-sdk'
 import { constants as httpConstants } from 'http2'
+import { v4 as uuidv4 } from 'uuid'
 import { createResponse } from '../utils/apiUtils'
+
+const invalidProduct = 'Product data is invalid'
 
 AWS.config.update({
   region: 'eu-west-1',
@@ -12,32 +15,27 @@ const dynamodb = new AWS.DynamoDB.DocumentClient()
 const createItemsFromBody = (body: string) => {
   const bodyItem = JSON.parse(body)
 
-  if (!bodyItem.id || !bodyItem.title) return
+  if (!bodyItem.description || !bodyItem.title) return
+
+  const id = uuidv4()
 
   return {
     product: {
-      id: bodyItem.id,
+      id,
       title: bodyItem.title,
-      description: bodyItem.description || '',
-      price: bodyItem.price || 0,
+      description: bodyItem.description,
+      price: +bodyItem.price || 0,
     },
-    stock: { product_id: bodyItem.id, count: bodyItem.count || 0 },
+    stock: { product_id: id, count: +bodyItem.count || 0 },
   }
 }
 
-export const handler = async (event: APIGatewayProxyEvent) => {
-  const body = event.body
-
-  console.log('createProduct called with body', body)
-
+export const createProduct = async (body: string) => {
   try {
     const items = createItemsFromBody(body)
 
     if (!items) {
-      return createResponse(
-        httpConstants.HTTP_STATUS_BAD_REQUEST,
-        'Product data is invalid'
-      )
+      throw new Error(invalidProduct)
     }
 
     const transactItems = [
@@ -61,10 +59,30 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       })
       .promise()
 
+    return items
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const handler = async (event: APIGatewayProxyEvent) => {
+  const body = event.body
+
+  console.log('createProduct called with body', body)
+
+  try {
+    const items = await createProduct(body)
+
     return createResponse(httpConstants.HTTP_STATUS_OK, items)
   } catch (error) {
+    let code: number
+    if (error.message === invalidProduct) {
+      code = httpConstants.HTTP_STATUS_BAD_REQUEST
+    }
     return createResponse(
-      error.statusCode || httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+      error.statusCode ||
+        code ||
+        httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
       { error: error.message }
     )
   }
