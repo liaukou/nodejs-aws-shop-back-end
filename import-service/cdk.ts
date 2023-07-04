@@ -1,4 +1,8 @@
 import * as apigatewayv2 from '@aws-cdk/aws-apigatewayv2-alpha'
+import {
+  HttpLambdaAuthorizer,
+  HttpLambdaResponseType,
+} from '@aws-cdk/aws-apigatewayv2-authorizers-alpha'
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha'
 import * as cdk from 'aws-cdk-lib'
 import { Runtime } from 'aws-cdk-lib/aws-lambda'
@@ -74,6 +78,16 @@ bucket.addEventNotification(
   { prefix: 'uploaded/' }
 )
 
+const authHandler = NodejsFunction.fromFunctionArn(
+  stack,
+  `${prefix}-authorizer-lambda`,
+  process.env.AUTHORIZER_LAMBDA_ARN
+)
+
+const authorizer = new HttpLambdaAuthorizer('BooksAuthorizer', authHandler, {
+  responseTypes: [HttpLambdaResponseType.IAM],
+})
+
 const api = new apigatewayv2.HttpApi(stack, `${prefix}-api`, {
   corsPreflight: {
     allowHeaders: ['*'],
@@ -89,4 +103,5 @@ api.addRoutes({
   ),
   path: '/import',
   methods: [apigatewayv2.HttpMethod.GET],
+  authorizer,
 })
